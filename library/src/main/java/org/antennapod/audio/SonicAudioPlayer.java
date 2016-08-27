@@ -124,7 +124,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
             case STATE_INITIALIZED:
                 return 0;
             default:
-                return (int) (mExtractor.getSampleTime() / 1000);
+                return mExtractor == null ? 0 : (int) (mExtractor.getSampleTime() / 1000);
         }
     }
 
