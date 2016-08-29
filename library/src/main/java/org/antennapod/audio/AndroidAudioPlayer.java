@@ -348,9 +348,6 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
             mp.prepare();
             Log.d(AMP_TAG, "Finish prepare()");
         }
-        catch (Exception e) {
-            Log.e(AMP_TAG, Log.getStackTraceString(e));
-        }
         finally {
             owningMediaPlayer.lock.unlock();
         }
@@ -397,9 +394,6 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
             mp.setOnSeekCompleteListener(this.onSeekCompleteListener);
             mp.seekTo(msec);
         }
-        catch (Exception e) {
-            Log.e(AMP_TAG, Log.getStackTraceString(e));
-        }
         finally {
             owningMediaPlayer.lock.unlock();
         }
@@ -427,9 +421,6 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
             Log.d(AMP_TAG, "setDataSource(context, " + uri.toString() + ")");
             mp.setDataSource(context, uri);
         }
-        catch (Exception e) {
-            Log.e(AMP_TAG, Log.getStackTraceString(e));
-        }
         finally {
             owningMediaPlayer.lock.unlock();
         }
@@ -442,9 +433,6 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         try {
             Log.d(AMP_TAG, "setDataSource(" + path + ")");
             mp.setDataSource(path);
-        }
-        catch (Exception e) {
-            Log.e(AMP_TAG, Log.getStackTraceString(e));
         }
         finally {
             owningMediaPlayer.lock.unlock();
