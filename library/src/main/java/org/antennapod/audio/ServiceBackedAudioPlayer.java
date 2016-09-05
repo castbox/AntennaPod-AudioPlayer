@@ -303,7 +303,7 @@ public class ServiceBackedAudioPlayer extends AbstractAudioPlayer {
         try {
             return pmInterface.getCurrentPosition(
                     ServiceBackedAudioPlayer.this.sessionId);
-        } catch (RemoteException e) {
+        } catch (RemoteException | NullPointerException e) {
             e.printStackTrace();
             ServiceBackedAudioPlayer.this.error(MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
         }
