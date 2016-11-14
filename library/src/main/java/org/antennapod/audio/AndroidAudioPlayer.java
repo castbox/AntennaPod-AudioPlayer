@@ -182,37 +182,6 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         super(owningMediaPlayer, context);
 
         mp = new MediaPlayer();
-
-//		final ReentrantLock lock = new ReentrantLock();
-//		Handler handler = new Handler(Looper.getMainLooper()) {
-//            @Override
-//            public void handleMessage(Message msg) {
-//            	Log.d(AMP_TAG, "Instantiating new AndroidMediaPlayer from Handler");
-//            	lock.lock();
-//            	if (mp == null) {
-//            		mp = new MediaPlayer();
-//            	}
-//            	lock.unlock();
-//            }
-//        };
-//		
-//        long endTime = System.currentTimeMillis() + TIMEOUT_DURATION_MS;
-//        
-//        while (true) {
-//        	// Retry messages until mp isn't null or it's time to give up
-//        	handler.sendMessage(handler.obtainMessage());
-//        	if ((mp != null)
-//        		|| (endTime < System.currentTimeMillis())) {
-//        		break;
-//        	}
-//        	try {
-//				Thread.sleep(50);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//        }
-
         if (mp == null) {
             throw new IllegalStateException("Did not instantiate MediaPlayer successfully");
         }
@@ -221,7 +190,7 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         mp.setOnCompletionListener(this.onCompletionListener);
         mp.setOnErrorListener(this.onErrorListener);
         mp.setOnInfoListener(this.onInfoListener);
-        Log.d(AMP_TAG, " ++++++++++++++++++++++++++++++++ Setting prepared listener to this.onPreparedListener");
+        Log.d(AMP_TAG, "Setting prepared listener to this.onPreparedListener");
         mp.setOnPreparedListener(this.onPreparedListener);
         mp.setOnSeekCompleteListener(this.onSeekCompleteListener);
     }
@@ -256,6 +225,8 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         owningMediaPlayer.lock.lock();
         try {
             return mp.getCurrentPosition();
+        } catch (IllegalStateException e) {
+            return -1;
         }
         catch (Exception e) {
             Log.e(AMP_TAG, Log.getStackTraceString(e));
@@ -276,6 +247,8 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         owningMediaPlayer.lock.lock();
         try {
             return mp.getDuration();
+        } catch(IllegalStateException e) {
+            return -1;
         }
         catch (Exception e) {
             Log.e(AMP_TAG, Log.getStackTraceString(e));
@@ -301,6 +274,8 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         owningMediaPlayer.lock.lock();
         try {
             return mp.isLooping();
+        } catch(IllegalStateException e) {
+            return false;
         }
         catch (Exception e) {
             Log.e(AMP_TAG, Log.getStackTraceString(e));
@@ -316,6 +291,8 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         owningMediaPlayer.lock.lock();
         try {
             return mp.isPlaying();
+        } catch(IllegalStateException e) {
+            return false;
         }
         catch (Exception e) {
             Log.e(AMP_TAG, Log.getStackTraceString(e));
@@ -366,6 +343,8 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
                 Log.d(AMP_TAG, "mp.release()");
                 mp.release();
             }
+        } catch(IllegalStateException e) {
+            // ignore
         }
         catch (Exception e) {
             Log.e(AMP_TAG, Log.getStackTraceString(e));
