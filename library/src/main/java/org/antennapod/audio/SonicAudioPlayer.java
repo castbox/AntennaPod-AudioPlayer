@@ -582,7 +582,14 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
             int sampleRate = oFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE);
             int channelCount = oFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT);
             final String mime = oFormat.getString(MediaFormat.KEY_MIME);
-            mDuration = oFormat.getLong(MediaFormat.KEY_DURATION);
+            try {
+                mDuration = oFormat.getLong(MediaFormat.KEY_DURATION);
+            } catch (Exception e) {
+                try {
+                    mDuration = mMediaPlayer.getDuration();
+                } catch (Exception e1) {
+                }
+            }
 
             Log.v(TAG_TRACK, "Sample rate: " + sampleRate);
             Log.v(TAG_TRACK, "Channel count: " + channelCount);
