@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class AbstractAudioPlayer {
@@ -73,7 +74,7 @@ public abstract class AbstractAudioPlayer {
 
     public abstract void setAudioStreamType(int streamtype);
 
-    public abstract void setDataSource(Context context, Uri uri) throws IllegalArgumentException, IllegalStateException, IOException;
+    public abstract void setDataSource(Context context, Uri uri, Map<String, String> headers) throws IllegalArgumentException, IllegalStateException, IOException;
 
     public abstract void setDataSource(String path) throws IllegalArgumentException, IllegalStateException, IOException;
 

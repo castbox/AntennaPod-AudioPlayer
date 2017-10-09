@@ -29,7 +29,9 @@ import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MediaPlayer {
@@ -524,7 +526,10 @@ public class MediaPlayer {
             if (uriDataSource != null) {
                 Log.d(MP_TAG, "switchMediaPlayerImpl(): uriDataSource != null");
                 try {
-                    to.setDataSource(this.mContext, uriDataSource);
+                    Map<String, String> headerMap = Utils.getUserAgentHeaders(mContext);
+                    Log.d(MP_TAG, "User-Agent headers:" + headerMap.toString());
+
+                    to.setDataSource(this.mContext, uriDataSource, headerMap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -974,7 +979,10 @@ public class MediaPlayer {
             this.state = State.INITIALIZED;
             this.stringDataSource = null;
             this.uriDataSource = uri;
-            this.mpi.setDataSource(context, uri);
+            Map<String, String> headerMap = Utils.getUserAgentHeaders(mContext);
+            Log.d(MP_TAG, "User-Agent headers:" + headerMap.toString());
+
+            this.mpi.setDataSource(context, uri, headerMap);
         } finally {
             lock.unlock();
         }

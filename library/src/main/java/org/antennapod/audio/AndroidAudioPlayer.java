@@ -22,6 +22,7 @@ import android.os.Build;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class AndroidAudioPlayer extends AbstractAudioPlayer {
 
@@ -393,12 +394,12 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
     }
 
     @Override
-    public void setDataSource(Context context, Uri uri)
+    public void setDataSource(Context context, Uri uri, Map<String, String> headers)
             throws IllegalArgumentException, IllegalStateException, IOException {
         owningMediaPlayer.lock.lock();
         try {
-            Log.d(AMP_TAG, "setDataSource(context, " + uri.toString() + ")");
-            mp.setDataSource(context, uri);
+            Log.d(AMP_TAG, "setDataSource(context:" + uri.toString() + " headers:" + headers.toString()+ " )");
+            mp.setDataSource(context, uri, headers);
         }
         finally {
             owningMediaPlayer.lock.unlock();

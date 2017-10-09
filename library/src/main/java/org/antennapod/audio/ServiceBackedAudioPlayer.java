@@ -44,6 +44,7 @@ import com.aocate.presto.service.IOnSpeedAdjustmentAvailableChangedListenerCallb
 import com.aocate.presto.service.IPlayMedia_0_8;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Class for connecting to remote speed-altering, media playing Service
@@ -658,7 +659,7 @@ public class ServiceBackedAudioPlayer extends AbstractAudioPlayer {
      * Sets uri as data source in the context given
      */
     @Override
-    public void setDataSource(Context context, Uri uri) throws IllegalArgumentException, IllegalStateException, IOException {
+    public void setDataSource(Context context, Uri uri, Map<String, String> headers) throws IllegalArgumentException, IllegalStateException, IOException {
         Log.d(SBMP_TAG, "setDataSource(context, uri)");
         if (pmInterface == null) {
             if (!ConnectPlayMediaService()) {

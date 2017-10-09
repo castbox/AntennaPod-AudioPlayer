@@ -36,6 +36,8 @@ import org.vinuxproject.sonic.Sonic;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -52,6 +54,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
     private Thread mDecoderThread;
     private String mPath;
     private Uri mUri;
+    private Map<String, String> mHeaders;
     private final ReentrantLock mLock;
     private final Object mDecoderLock;
     private boolean mContinue;
@@ -437,9 +440,10 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
     }
 
     @Override
-    public void setDataSource(Context context, Uri uri) {
+    public void setDataSource(Context context, Uri uri, Map<String, String> headers) {
         switch (mCurrentState) {
             case STATE_IDLE:
+                mHeaders = headers;
                 mUri = uri;
                 mCurrentState = STATE_INITIALIZED;
                 Log.d(TAG_TRACK, "Moving state to STATE_INITIALIZED");
@@ -549,7 +553,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
             mExtractor.setDataSource(mPath);
         }
         else if (mUri != null) {
-            mExtractor.setDataSource(mContext, mUri, null);
+            mExtractor.setDataSource(mContext, mUri, mHeaders);
         }
         else {
             throw new IOException();
