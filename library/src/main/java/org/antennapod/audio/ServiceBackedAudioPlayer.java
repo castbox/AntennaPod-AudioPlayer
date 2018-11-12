@@ -1180,7 +1180,7 @@ public class ServiceBackedAudioPlayer extends AbstractAudioPlayer {
         }
         try {
             pmInterface.start(ServiceBackedAudioPlayer.this.sessionId);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             ServiceBackedAudioPlayer.this.error(MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
         }
