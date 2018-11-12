@@ -353,6 +353,8 @@ public class ServiceBackedAudioPlayer extends AbstractAudioPlayer {
         } catch (RemoteException e) {
             e.printStackTrace();
             ServiceBackedAudioPlayer.this.error(MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         return 0;
     }
