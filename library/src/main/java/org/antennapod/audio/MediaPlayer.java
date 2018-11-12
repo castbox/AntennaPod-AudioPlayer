@@ -538,14 +538,14 @@ public class MediaPlayer {
                 Log.d(MP_TAG, "switchMediaPlayerImpl(): stringDataSource != null");
                 try {
                     to.setDataSource(stringDataSource);
+
+                    // (native) mediaplayer has to be initialized
+                    to.setPitchStepsAdjustment(this.mPitchStepsAdjustment);
+                    to.setPlaybackSpeed(this.mSpeedMultiplier);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
-            // (native) mediaplayer has to be initialized
-            to.setPitchStepsAdjustment(this.mPitchStepsAdjustment);
-            to.setPlaybackSpeed(this.mSpeedMultiplier);
 
             if ((this.state == State.PREPARED)
                     || (this.state == State.PREPARING)
