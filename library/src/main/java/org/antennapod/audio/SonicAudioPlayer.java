@@ -244,7 +244,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
                         try {
                             streamInitialized = initStream();
                         } catch (IOException e) {
-                            if (lastPath.equals(currentPath())) {
+                            if (lastPath != null && lastPath.equals(currentPath())) {
                                 Log.e(TAG_TRACK, "Failed setting data source!", e);
                                 error();
                             }
