@@ -36,7 +36,6 @@ import org.vinuxproject.sonic.Sonic;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -811,7 +810,9 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                owningMediaPlayer.onCompletionListener.onCompletion(owningMediaPlayer);
+                                if (owningMediaPlayer != null && owningMediaPlayer.onCompletionListener != null) {
+                                    owningMediaPlayer.onCompletionListener.onCompletion(owningMediaPlayer);
+                                }
 
                             }
                         });
