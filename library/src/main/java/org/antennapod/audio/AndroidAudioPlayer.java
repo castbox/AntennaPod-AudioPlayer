@@ -373,8 +373,9 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         try {
             mp.setOnSeekCompleteListener(this.onSeekCompleteListener);
             mp.seekTo(msec);
-        }
-        finally {
+        } catch (IllegalStateException e) {
+            //do nothing
+        } finally {
             owningMediaPlayer.lock.unlock();
         }
     }
