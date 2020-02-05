@@ -401,8 +401,9 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         try {
             Log.d(AMP_TAG, "setDataSource(context:" + uri.toString() + " headers:" + headers.toString()+ " )");
             mp.setDataSource(context, uri, headers);
-        }
-        finally {
+        } catch (IllegalStateException e) {
+            //do nothing
+        } finally {
             owningMediaPlayer.lock.unlock();
         }
     }
@@ -414,8 +415,9 @@ public class AndroidAudioPlayer extends AbstractAudioPlayer {
         try {
             Log.d(AMP_TAG, "setDataSource(" + path + ")");
             mp.setDataSource(path);
-        }
-        finally {
+        } catch (IllegalStateException e) {
+            //do nothing
+        } finally {
             owningMediaPlayer.lock.unlock();
         }
     }
