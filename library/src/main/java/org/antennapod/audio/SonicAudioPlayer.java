@@ -386,8 +386,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
 
                 final boolean wasPlaying = playing;
 
-                // the seeking is started in another thread to prevent UI locking
-                Thread t = new Thread(new Runnable() {
+                Runnable seekRunnable = new Runnable() {
                     @Override
                     public void run() {
                         String lastPath = currentPath();
@@ -418,10 +417,18 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
                             }
                         }
                     }
-                });
+                };
 
-                t.setDaemon(true);
-                t.start();
+                // the seeking is started in another thread to prevent UI locking
+                if (mUri != null) {
+                    Thread t = new Thread(seekRunnable);
+
+                    t.setDaemon(true);
+                    t.start();
+                }
+                else {
+                    seekRunnable.run();
+                }
 
                 break;
             default:
