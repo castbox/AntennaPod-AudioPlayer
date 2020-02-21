@@ -182,7 +182,7 @@ public class MediaPlayer {
 
     // This is whether speed adjustment should be enabled (by the Service)
     // To avoid the Service entirely, set useService to false
-    protected boolean enableSpeedAdjustment = true;
+    private boolean enableSpeedAdjustment = true;
     private int lastKnownPosition = 0;
     // In some cases, we're going to have to replace the
     // android.media.MediaPlayer on the fly, and we don't want to touch the
@@ -197,8 +197,8 @@ public class MediaPlayer {
     private float mSpeedMultiplier = 1f;
     private int mWakeMode = 0;
     AbstractAudioPlayer mpi = null;
-    protected boolean pitchAdjustmentAvailable = false;
-    protected boolean speedAdjustmentAvailable = false;
+    private boolean pitchAdjustmentAvailable = false;
+    private boolean speedAdjustmentAvailable = false;
 
     private Handler mServiceDisconnectedHandler = null;
 
@@ -206,8 +206,8 @@ public class MediaPlayer {
     // so store our own state. This also helps copy state when changing
     // implementations
     State state = State.INITIALIZED;
-    String stringDataSource = null;
-    Uri uriDataSource = null;
+    private String stringDataSource = null;
+    private Uri uriDataSource = null;
     private boolean useService = false;
 
     // Naming Convention for Listeners
@@ -245,7 +245,7 @@ public class MediaPlayer {
             }
         }
     };
-    OnPitchAdjustmentAvailableChangedListener pitchAdjustmentAvailableChangedListener = null;
+    private OnPitchAdjustmentAvailableChangedListener pitchAdjustmentAvailableChangedListener = null;
 
     final MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
         public void onPrepared(MediaPlayer arg0) {
@@ -259,7 +259,7 @@ public class MediaPlayer {
         }
     };
 
-    OnPreparedListener preparedListener = null;
+    private OnPreparedListener preparedListener = null;
     OnSeekCompleteListener onSeekCompleteListener = null;
 
     // Special case. Speed adjustment ceases to be available when we switch
@@ -286,7 +286,7 @@ public class MediaPlayer {
             }
         }
     };
-    OnSpeedAdjustmentAvailableChangedListener speedAdjustmentAvailableChangedListener = null;
+    private OnSpeedAdjustmentAvailableChangedListener speedAdjustmentAvailableChangedListener = null;
 
     public MediaPlayer(final Context context) {
         this(context, true);
@@ -496,7 +496,7 @@ public class MediaPlayer {
                     || (to instanceof ServiceBackedAudioPlayer && !((ServiceBackedAudioPlayer) to).isConnected())
                     // ServiceBackedMediaPlayer hasn't yet connected, onServiceConnected will take care of the transition
                     || (MediaPlayer.this.state == State.END)) {
-                // State.END is after a release(), no further functions should
+                // SonicAudioPlayerState.END is after a release(), no further functions should
                 // be called on this class and from is likely to have problems
                 // retrieving state that won't be used anyway
                 return;
