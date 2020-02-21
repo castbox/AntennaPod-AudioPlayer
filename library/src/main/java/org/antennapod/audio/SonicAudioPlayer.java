@@ -101,7 +101,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
 
     @Override
     public int getAudioSessionId() {
-        if(mTrack == null) {
+        if (mTrack == null) {
             return 0;
         }
         return mTrack.getAudioSessionId();
@@ -241,7 +241,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
     }
 
     public void stop() {
-        if (state.stoppingAllowed()) {
+        if (!state.stoppingAllowed()) {
             error();
             Log.d(TAG_TRACK, "Stopping in current state " + state + " not allowed");
             return;
@@ -457,7 +457,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
             mWakeLock = null;
         }
 
-        if(mode > 0) {
+        if (mode > 0) {
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             mWakeLock = pm.newWakeLock(mode, this.getClass().getName());
             mWakeLock.setReferenceCounted(false);
@@ -476,7 +476,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
             return;
         }
         state.changeTo(ERROR);
-        if(owningMediaPlayer.onErrorListener != null) {
+        if (owningMediaPlayer.onErrorListener != null) {
             boolean handled = owningMediaPlayer.onErrorListener.onError(owningMediaPlayer, 0, extra);
             if (!handled && owningMediaPlayer.onCompletionListener != null) {
                 owningMediaPlayer.onCompletionListener.onCompletion(owningMediaPlayer);
@@ -487,8 +487,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
     private String currentPath() {
         if (mPath != null) {
             return mPath;
-        }
-        else if (mUri != null) {
+        } else if (mUri != null) {
             return mUri.toString();
         }
 
@@ -534,8 +533,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
             String mime = oFormat.getString(MediaFormat.KEY_MIME);
             if (trackNum < 0 && mime.startsWith("audio/")) {
                 trackNum = i;
-            }
-            else {
+            } else {
                 mExtractor.unselectTrack(i);
             }
         }
@@ -582,7 +580,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
         final int format = findFormatFromChannels(numChannels);
         int oldBufferSize = mBufferSize;
         mBufferSize = AudioTrack.getMinBufferSize(sampleRate, format, AudioFormat.ENCODING_PCM_16BIT);
-        if(mBufferSize != oldBufferSize) {
+        if (mBufferSize != oldBufferSize) {
             if (mTrack != null) {
                 mTrack.release();
             }
@@ -781,7 +779,7 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
                         Thread.sleep(100);
                         currHeadPos = mTrack.getPlaybackHeadPosition();
                     } catch (InterruptedException e) { /* ignore */ }
-                } while(currHeadPos != lastHeadPos);
+                } while (currHeadPos != lastHeadPos);
                 mTrack.stop();
 
                 Log.d(TAG_TRACK, "Stopped codec and track");
