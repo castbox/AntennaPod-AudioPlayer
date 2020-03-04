@@ -258,10 +258,19 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
         }
         if (state.is(PLAYBACK_COMPLETED) || state.is(PREPARED)) {
             if(state.is(PLAYBACK_COMPLETED)) {
+                boolean streamInitialized;
                 try {
-                    initStream();
+                    streamInitialized = initStream();
                 } catch (IOException e) {
                     Log.e(TAG, "initStream() failed");
+                    error();
+                    return;
+                }
+                if (streamInitialized) {
+                    if (state.is(ERROR)) {
+                        return;
+                    }
+                } else {
                     error();
                     return;
                 }
