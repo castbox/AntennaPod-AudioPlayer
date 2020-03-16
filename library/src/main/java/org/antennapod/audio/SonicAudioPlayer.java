@@ -219,6 +219,8 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
         boolean streamInitialized;
         String lastPath = currentPath();
 
+        resetAudio();
+
         state.changeTo(PREPARING);
         try {
             streamInitialized = initStream();
@@ -332,6 +334,37 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
         mUri = null;
         mBufferSize = 0;
         state.changeTo(IDLE);
+        mLock.unlock();
+    }
+
+    public void resetAudio() {
+        mLock.lock();
+        mContinue = false;
+        try {
+            if (mDecoderThread != null && !state.is(PLAYBACK_COMPLETED)) {
+                while (mIsDecoding) {
+                    synchronized (mDecoderLock) {
+                        mDecoderLock.notify();
+                        mDecoderLock.wait();
+                    }
+                }
+            }
+        } catch (InterruptedException e) {
+            Log.e(TAG_TRACK, "Interrupted in reset while waiting for decoder thread to stop.", e);
+        }
+        if (mCodec != null) {
+            mCodec.release();
+            mCodec = null;
+        }
+        if (mExtractor != null) {
+            mExtractor.release();
+            mExtractor = null;
+        }
+        if (mTrack != null) {
+            mTrack.release();
+            mTrack = null;
+        }
+        mBufferSize = 0;
         mLock.unlock();
     }
 
