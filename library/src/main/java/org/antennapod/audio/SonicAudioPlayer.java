@@ -235,9 +235,9 @@ public class SonicAudioPlayer extends AbstractAudioPlayer {
         if (streamInitialized) {
             if (!state.is(ERROR)) {
                 state.changeTo(PREPARED);
-            }
-            if (owningMediaPlayer.onPreparedListener != null) {
-                owningMediaPlayer.onPreparedListener.onPrepared(owningMediaPlayer);
+                if (owningMediaPlayer.onPreparedListener != null) {
+                    owningMediaPlayer.onPreparedListener.onPrepared(owningMediaPlayer);
+                }
             }
         }
     }
